@@ -1,0 +1,22 @@
+@using System.IO
+@inject IJSRuntime JS
+@page "/Picture"
+
+<PageTitle>Picture</PageTitle>
+<MudStack>
+    <MudText Typo="Typo.h3" GutterBottom="true">Picture</MudText>
+    <MudImage Fluid="true" Src="images/myimage.png" Alt="Swedish Farm House" Class="rounded-lg"/>
+    <MudButton Class="ma-12" Color="Color.Primary" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.ArrowDownward" @onclick="DownloadFileFromURL">Download</MudButton>
+</MudStack>
+
+@code {
+    private async Task DownloadFileFromURL()
+    {
+        const string web = "https://localhost:5001";
+        const string folder = "images";
+        const string fileName = "myimage.png";
+        var pathway = Path.Combine(web, folder, fileName);
+        var fileURL = pathway;
+        await JS.InvokeVoidAsync("triggerFileDownload", fileName, fileURL);
+    }
+}
